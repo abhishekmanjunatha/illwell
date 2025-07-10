@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://abhishek.github.io/illwell",
+  "homepage": "https://abhishekmanjunatha.github.io/illwell",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
