@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/illwell/illwell-logo-simple.svg" />
+    <link rel="icon" type="image/svg+xml" href="/illwell-logo-simple.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Professional dietitian and nutritionist services. Personalized nutrition plans, weight management, diabetes control, and family nutrition guidance." />
     <meta name="keywords" content="dietitian, nutritionist, weight loss, diabetes control, nutrition plans, health consultation" />
@@ -20,7 +20,7 @@
       // Load script with better error handling
       (function() {
         var script = document.createElement('script');
-        script.src = 'https://www.practo.com/bundles/practopractoapp/js/abs_widget_helper.js';
+        script.src = 'https://apps.practo.com/webapi/js/abs_widget_helper.min.js';
         script.async = true;
         script.onload = function() {
           console.log('Practo widget script loaded successfully');
@@ -30,7 +30,13 @@
           }
         };
         script.onerror = function() {
-          console.error('Failed to load Practo widget script');
+          console.error('Failed to load Practo widget script, retrying...');
+          setTimeout(() => {
+            const retryScript = document.createElement('script');
+            retryScript.src = 'https://apps.practo.com/webapi/js/abs_widget_helper.min.js';
+            retryScript.async = true;
+            document.head.appendChild(retryScript);
+          }, 2000);
         };
         document.head.appendChild(script);
       })();
