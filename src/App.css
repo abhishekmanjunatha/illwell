@@ -79,12 +79,110 @@ body {
   align-items: center;
 }
 
+/* Animated Logo Styles */
+.logo-animated {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  width: 120px; /* Fixed width to prevent layout shifts */
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.logo-animated:hover .logo-image,
+.logo-animated:hover .logo-text {
+  animation-play-state: paused;
+}
+
+.logo-animated .logo-image,
+.logo-animated .logo-text {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-animated .logo-image {
+  height: 40px;
+  width: auto;
+  opacity: 1;
+  z-index: 2;
+  animation: logoShuffle 4s infinite;
+}
+
+.logo-animated .logo-text {
+  opacity: 0;
+  transform: translateY(-50%) translateX(20px);
+  z-index: 1;
+  animation: logoShuffleText 4s infinite;
+}
+
+/* Animation keyframes for logo shuffling */
+@keyframes logoShuffle {
+  0%, 45% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  50%, 95% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+@keyframes logoShuffleText {
+  0%, 45% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(20px);
+  }
+  50%, 95% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(20px);
+  }
+}
+
+/* Respect user's preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .logo-animated .logo-image,
+  .logo-animated .logo-text {
+    animation: none !important;
+  }
+  
+  .logo-animated .logo-image {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  
+  .logo-animated .logo-text {
+    opacity: 0;
+    transform: translateY(-50%) translateX(0);
+  }
+  
+  .logo-animated:hover .logo-text {
+    opacity: 1;
+  }
+  
+  .logo-animated:hover .logo-image {
+    opacity: 0;
+  }
+}
+
 .logo-text {
   font-size: 2rem;
   font-weight: 800;
   color: var(--text-dark);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   letter-spacing: -0.025em;
+  white-space: nowrap;
 }
 
 .logo-accent {
@@ -182,7 +280,23 @@ body {
 
 .navbar-practo-widget {
   display: flex;
+  flex-direction: column;
   align-items: center;
+}
+
+/* Practo instruction text */
+.practo-instruction {
+  font-size: 10px;
+  color: var(--text-light);
+  margin-top: 2px;
+  text-align: center;
+  line-height: 1.2;
+  opacity: 0.8;
+}
+
+.practo-instruction.mobile {
+  font-size: 9px;
+  margin-top: 3px;
 }
 
 /* Style the Practo widget to match our design */
@@ -874,6 +988,353 @@ practo\:abs_widget {
   text-align: center;
 }
 
+/* Ratings Section */
+.ratings-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  position: relative;
+}
+
+.ratings-section .container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.ratings-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.ratings-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.ratings-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.ratings-header p {
+  font-size: 1.1rem;
+  color: var(--text-gray);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Rating Cards - One Line Layout */
+.ratings-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rating-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.rating-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(16, 185, 129, 0.15);
+  border-color: var(--primary-light);
+}
+
+.rating-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rating-card:hover::before {
+  opacity: 1;
+}
+
+.rating-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: slideInUp 0.6s ease forwards;
+}
+
+.rating-card:nth-child(1).visible { animation-delay: 0.1s; }
+.rating-card:nth-child(2).visible { animation-delay: 0.2s; }
+.rating-card:nth-child(3).visible { animation-delay: 0.3s; }
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rating-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rating-card:hover::before {
+  opacity: 1;
+}
+
+.rating-label-small {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 3px 6px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  z-index: 2;
+}
+
+.platform-logo {
+  width: 80px;
+  height: 50px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 12px;
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.platform-logo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 12px;
+}
+
+.rating-card:hover .platform-logo {
+  border-color: var(--primary-light);
+  transform: scale(1.05);
+}
+
+.rating-card:hover .platform-logo::before {
+  opacity: 0.1;
+}
+
+.logo-img {
+  max-width: 70px;
+  max-height: 40px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Specific sizing for LL logo to match others */
+.logo-img[alt="LL"] {
+  max-height: 82px;
+  max-width: 150px;
+  object-fit: contain;
+  transform: scale(0.9);
+}
+
+.rating-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  margin-bottom: 0.5rem;
+}
+
+.star {
+  font-size: 18px;
+  color: #e5e7eb;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.star.filled {
+  color: var(--primary);
+  text-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.star.partial {
+  background: linear-gradient(90deg, var(--primary) 50%, #e5e7eb 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.star.empty {
+  color: #e5e7eb;
+}
+
+.rating-card:hover .star.filled,
+.rating-card:hover .star.partial {
+  color: var(--primary-light);
+  text-shadow: 0 3px 6px rgba(16, 185, 129, 0.4);
+  transform: scale(1.1);
+}
+
+.review-count {
+  font-size: 0.9rem;
+  color: var(--text-gray);
+  font-weight: 500;
+}
+
+.ratings-summary {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  background: linear-gradient(135deg, white 0%, #f8fffe 100%);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.ratings-summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--primary));
+}
+
+.summary-item {
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+
+.summary-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.3), transparent);
+}
+
+.summary-number {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.summary-item:hover .summary-number {
+  transform: scale(1.1);
+}
+
+.summary-label {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Special sizing for Lybrate logo to match others */
+.logo-img[alt="Lybrate"] {
+  max-height: 45px;
+  max-width: 130px;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  margin-bottom: 0.5rem;
+}
+
+.star {
+  font-size: 18px;
+  color: #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.star.filled {
+  color: var(--primary);
+}
+
+.star.partial {
+  background: linear-gradient(90deg, var(--primary) 50%, #e5e7eb 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.star.empty {
+  color: #e5e7eb;
+}
+
 /* Testimonials Section */
 .testimonials-section {
   padding: 40px 0;
@@ -1533,6 +1994,16 @@ practo\:abs_widget {
   margin-bottom: 1rem;
 }
 
+.footer-logo .logo-animated {
+  height: 35px;
+  width: 110px; /* Slightly smaller for footer */
+}
+
+.footer-logo .logo-animated .logo-image {
+  height: 35px;
+  filter: brightness(0) invert(1); /* Make PNG logo white for footer */
+}
+
 .footer-logo .logo-text {
   font-size: 1.75rem;
   font-weight: 800;
@@ -1904,6 +2375,32 @@ practo\:abs_widget {
   align-items: center;
 }
 
+/* Tablet responsive styles for ratings */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .ratings-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  
+  .rating-card {
+    padding: 1.8rem 1.3rem;
+  }
+  
+  .platform-logo {
+    width: 70px;
+    height: 45px;
+  }
+  
+  .logo-img {
+    max-width: 60px;
+    max-height: 35px;
+  }
+  
+  .rating-number {
+    font-size: 1.6rem;
+  }
+}
+
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   /* Show mobile bottom buttons */
@@ -1917,8 +2414,26 @@ practo\:abs_widget {
   }
   
   /* Logo adjustments */
+  .logo-animated {
+    height: 30px;
+    width: 90px; /* Smaller width for mobile */
+  }
+  
+  .logo-animated .logo-image {
+    height: 30px;
+  }
+  
   .logo-text {
     font-size: 1.5rem;
+  }
+  
+  .footer-logo .logo-animated {
+    height: 28px;
+    width: 85px; /* Smaller width for mobile footer */
+  }
+  
+  .footer-logo .logo-animated .logo-image {
+    height: 28px;
   }
   
   .footer-logo .logo-text {
@@ -2027,6 +2542,74 @@ practo\:abs_widget {
     font-size: 2rem;
   }
   
+  /* Ratings Section Mobile */
+  .ratings-section {
+    padding: 4rem 0;
+  }
+  
+  .ratings-header {
+    margin-bottom: 3rem;
+  }
+  
+  .ratings-header h2 {
+    font-size: 2.25rem;
+  }
+  
+  .ratings-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  
+  .rating-card {
+    padding: 1.75rem 1rem;
+    min-height: 260px;
+  }
+  
+  /* Ratings Section Mobile */
+  .ratings-section {
+    padding: 3rem 0;
+  }
+  
+  .ratings-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .ratings-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .rating-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .platform-logo {
+    width: 60px;
+    height: 40px;
+    margin-bottom: 1rem;
+  }
+  
+  .logo-img {
+    max-width: 50px;
+    max-height: 30px;
+  }
+  
+  .rating-number {
+    font-size: 1.4rem;
+  }
+  
+  .ratings-summary {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .summary-number {
+    font-size: 1.5rem;
+  }
+  
   /* Testimonials Mobile */
   .testimonials-slider {
     grid-template-columns: 1fr;
@@ -2129,8 +2712,26 @@ practo\:abs_widget {
 
 @media (max-width: 480px) {
   /* Extra small mobile adjustments */
+  .logo-animated {
+    height: 26px;
+    width: 80px; /* Even smaller for extra small screens */
+  }
+  
+  .logo-animated .logo-image {
+    height: 26px;
+  }
+  
   .logo-text {
     font-size: 1.3rem;
+  }
+  
+  .footer-logo .logo-animated {
+    height: 24px;
+    width: 75px; /* Even smaller for extra small footer */
+  }
+  
+  .footer-logo .logo-animated .logo-image {
+    height: 24px;
   }
   
   .footer-logo .logo-text {
@@ -2145,6 +2746,38 @@ practo\:abs_widget {
   .transform-text h2,
   .contact-content h2 {
     font-size: 1.6rem;
+  }
+  
+  .ratings-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .ratings-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .rating-card {
+    padding: 1.5rem 1rem;
+    min-height: 240px;
+  }
+  
+  .platform-logo {
+    height: 45px;
+    margin-bottom: 1rem;
+  }
+  
+  .logo-img {
+    max-height: 30px;
+    max-width: 100px;
+  }
+  
+  .rating-score {
+    font-size: 1.5rem;
+  }
+  
+  .summary-number {
+    font-size: 1.75rem;
   }
   
   .mobile-btn {
@@ -2178,6 +2811,8 @@ practo\:abs_widget {
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
   border-top: 1px solid var(--border);
   z-index: 1000;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Show mobile button only on mobile devices */
@@ -2230,4 +2865,27 @@ practo\:abs_widget {
   .navbar-practo-widget .button-icon {
     font-size: 14px; /* Smaller icon on mobile */
   }
+}
+
+/* Mobile Practo Button Specific Styles */
+.mobile-btn-single.practo-button {
+  background: var(--primary);
+  position: relative;
+}
+
+.mobile-btn-single.practo-button:hover {
+  background: var(--primary-dark);
+}
+
+.mobile-btn-single.practo-button practo\:abs_widget {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  opacity: 0;
+  cursor: pointer;
+  border-radius: 6px !important;
+  overflow: hidden;
 }

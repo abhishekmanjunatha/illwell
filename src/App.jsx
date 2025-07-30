@@ -5,6 +5,11 @@ import iconFamily from './assets/icon-family.svg';
 import iconSports from './assets/icon-sports.svg';
 import iconCheck from './assets/icon-check.svg';
 import iconQuote from './assets/icon-quote.svg';
+import logoImage from './assets/illwell-logo.png';
+import googleLogo from './assets/gm.png';
+import practoLogo from './assets/pct.png';
+import justdialLogo from './assets/jd.png';
+import lybrateLogo from './assets/ll.png';
 import './App.css';
 
 function App() {
@@ -83,7 +88,10 @@ function App() {
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-logo">
-            <span className="logo-text">ill<span className="logo-accent">well</span></span>
+            <div className="logo-animated">
+              <img src={logoImage} alt="illwell Logo" className="logo-image" />
+              <span className="logo-text">ill<span className="logo-accent">well</span></span>
+            </div>
           </div>
           <div className="nav-links">
             <a href="#services">Services</a>
@@ -96,6 +104,7 @@ function App() {
               <span className="button-icon">📅</span>
               <span className="button-text">Book Appointment</span>
             </button>
+            <div className="practo-instruction">Doesn't work? Refresh and try</div>
           </div>
           <div className="mobile-menu">
             <span></span>
@@ -204,6 +213,94 @@ function App() {
               <h3>Sports Nutrition</h3>
               <p>Performance optimization for athletes and fitness enthusiasts at every level.</p>
               <a href="#" className="service-link">Learn More →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Ratings Section */}
+      <section className="ratings-section">
+        <div className="container">
+          <div className="ratings-header">
+            <div className="ratings-badge">⭐ Trusted by Thousands</div>
+            <h2>What Our Patients Say</h2>
+            <p>Our commitment to your health transformation speaks through genuine client reviews</p>
+          </div>
+          <div className="ratings-grid">
+            <div className="rating-card">
+              <div className="rating-label-small">Highly Rated</div>
+              <div className="platform-logo">
+                <img src={googleLogo} alt="Google" className="logo-img" />
+              </div>
+              <div className="rating-number">4.8/5</div>
+              <div className="stars">
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star partial">★</span>
+              </div>
+              <div className="review-count">150+ reviews</div>
+            </div>
+            <div className="rating-card">
+              <div className="rating-label-small">Top Rated</div>
+              <div className="platform-logo">
+                <img src={practoLogo} alt="Practo" className="logo-img" />
+              </div>
+              <div className="rating-number">4.9/5</div>
+              <div className="stars">
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+              </div>
+              <div className="review-count">200+ reviews</div>
+            </div>
+            <div className="rating-card">
+              <div className="rating-label-small">Trusted</div>
+              <div className="platform-logo">
+                <img src={justdialLogo} alt="JustDial" className="logo-img" />
+              </div>
+              <div className="rating-number">4.7/5</div>
+              <div className="stars">
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star empty">★</span>
+              </div>
+              <div className="review-count">80+ reviews</div>
+            </div>
+            <div className="rating-card">
+              <div className="rating-label-small">Verified</div>
+              <div className="platform-logo">
+                <img src={lybrateLogo} alt="LL" className="logo-img" />
+              </div>
+              <div className="rating-number">4.8/5</div>
+              <div className="stars">
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star filled">★</span>
+                <span className="star partial">★</span>
+              </div>
+              <div className="review-count">120+ reviews</div>
+            </div>
+          </div>
+          
+          <div className="ratings-summary">
+            <div className="summary-item">
+              <div className="summary-number">4.8</div>
+              <div className="summary-label">Average Rating</div>
+            </div>
+            <div className="summary-item">
+              <div className="summary-number">550+</div>
+              <div className="summary-label">Total Reviews</div>
+            </div>
+            <div className="summary-item">
+              <div className="summary-number">98%</div>
+              <div className="summary-label">Satisfaction Rate</div>
             </div>
           </div>
         </div>
@@ -345,8 +442,10 @@ function App() {
                 </div>
                 <div className="method-content">
                   <h4>Visit Our Wellness Center</h4>
-                  <p>No. 457/A, Basaveshwar Nagar<br />Bengaluru, Karnataka 560079</p>
-                  <span className="method-action">Get Directions →</span>
+                  <p>Ground Floor, Vathsalya Speciality Clinic, 565, beside post office<br />
+                  3rd Stage 4th Block, Shakthi Ganapathi Nagar<br />
+                  Basaveshwar Nagar, Bengaluru, Karnataka 560079</p>
+                  <span className="method-action" onClick={() => window.open('https://share.google/2O4U9Ea9EfWkAsq9X', '_blank')} style={{cursor: 'pointer'}}>Get Directions →</span>
                 </div>
               </div>
               <div className="contact-method premium">
@@ -356,8 +455,8 @@ function App() {
                 </div>
                 <div className="method-content">
                   <h4>Speak with Our Expert</h4>
-                  <p>+91 98765 43210</p>
-                  <span className="method-action">Call Now →</span>
+                  <p>+91-9886717192</p>
+                  <span className="method-action" onClick={() => window.open('tel:+919886717192')} style={{cursor: 'pointer'}}>Call Now →</span>
                 </div>
               </div>
               <div className="contact-method premium">
@@ -368,7 +467,7 @@ function App() {
                 <div className="method-content">
                   <h4>Send Us a Message</h4>
                   <p>hello@illwell.in</p>
-                  <span className="method-action">Email Us →</span>
+                  <span className="method-action" onClick={() => window.open('mailto:hello@illwell.in', '_blank')} style={{cursor: 'pointer'}}>Email Us →</span>
                 </div>
               </div>
             </div>
@@ -414,7 +513,10 @@ function App() {
           <div className="footer-main">
             <div className="footer-brand">
               <div className="footer-logo">
-                <span className="logo-text">ill<span className="logo-accent">well</span></span>
+                <div className="logo-animated">
+                  <img src={logoImage} alt="illwell Logo" className="logo-image" />
+                  <span className="logo-text">ill<span className="logo-accent">well</span></span>
+                </div>
               </div>
               <p className="footer-tagline">Transforming lives through personalized nutrition and expert guidance since 2013.</p>
               <div className="footer-social">
@@ -446,8 +548,8 @@ function App() {
               <div className="footer-section">
                 <h4>Contact Info</h4>
                 <ul>
-                  <li>📍 Basaveshwar Nagar, Bengaluru</li>
-                  <li>📞 +91 98765 43210</li>
+                  <li>📍 Vathsalya Speciality Clinic, Basaveshwar Nagar</li>
+                  <li>📞 +91-9886717192</li>
                   <li>✉️ hello@illwell.in</li>
                   <li>🕒 Mon-Sat: 9AM-6PM</li>
                 </ul>
@@ -471,10 +573,12 @@ function App() {
 
       {/* Mobile Bottom Action Button */}
       <div className="mobile-bottom-actions">
-        <button className="mobile-btn mobile-btn-single" onClick={() => window.open('tel:+919886717192')}>
+        <button className="mobile-btn mobile-btn-single practo-button">
+          <practo:abs_widget widget="730f3d28f57854f8"></practo:abs_widget>
           <span className="button-icon">📞</span>
           Get Appointment
         </button>
+        <div className="practo-instruction mobile">Doesn't work? Refresh and try</div>
       </div>
     </div>
   );
