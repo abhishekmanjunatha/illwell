@@ -1,27 +1,18 @@
 // Service Worker for IllWell Nutrition Website
-// Optimized for fast loading and offline support
+// Optimized for GitHub Pages deployment
 
-const CACHE_NAME = 'illwell-v1.0.0';
+const CACHE_NAME = 'illwell-v1.1.0';
 const urlsToCache = [
-  '/',
-  '/src/main.jsx',
-  '/src/App.jsx',
-  '/src/App.css',
-  '/src/assets/illwell-logo.png',
-  '/src/assets/illwell-logo-simple.svg',
-  '/src/assets/gm.png',
-  '/src/assets/pct.png',
-  '/src/assets/jd.png',
-  '/src/assets/Lybrate-logo.png',
-  '/src/assets/icon-weight.svg',
-  '/src/assets/icon-diabetes.svg',
-  '/src/assets/icon-family.svg',
-  '/src/assets/icon-sports.svg',
-  '/src/assets/icon-check.svg',
-  '/src/assets/icon-quote.svg'
+  '/illwell/',
+  '/illwell/assets/index-CjFUrrW5.js',
+  '/illwell/assets/index-Cf7nq8eU.css',
+  '/illwell/assets/illwell-logo-DQAAfMbo.png',
+  '/illwell/assets/gm-CX7yBUqb.png',
+  '/illwell/assets/pct-C8Qrhxdp.png',
+  '/illwell/assets/jd-B7Q_j7X0.png',
+  '/illwell/assets/ll-Bu04P9yJ.png'
 ];
 
-// Install event - cache resources
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -32,39 +23,19 @@ self.addEventListener('install', function(event) {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
       .then(function(response) {
-        // Cache hit - return response
         if (response) {
           return response;
         }
-
-        return fetch(event.request).then(
-          function(response) {
-            // Check if we received a valid response
-            if(!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-
-            // Clone the response
-            var responseToCache = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(function(cache) {
-                cache.put(event.request, responseToCache);
-              });
-
-            return response;
-          }
-        );
-      })
-    );
+        return fetch(event.request);
+      }
+    )
+  );
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
