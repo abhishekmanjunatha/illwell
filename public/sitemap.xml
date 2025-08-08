@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url>
+    <loc>https://illwell.in/</loc>
+    <lastmod>2025-01-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://illwell.in/src/assets/ksk1.jpeg</image:loc>
+      <image:caption>Dr. Keerthi Shree Kirisave - Clinical Nutritionist and Dietitian</image:caption>
+      <image:title>Dr. Keerthi Shree Kirisave</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://illwell.in/src/assets/illwell-logo.png</image:loc>
+      <image:caption>IllWell Nutrition Logo</image:caption>
+      <image:title>IllWell Nutrition</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://illwell.in/#services</loc>
+    <lastmod>2025-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://illwell.in/#doctor</loc>
+    <lastmod>2025-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://illwell.in/#testimonials</loc>
+    <lastmod>2025-01-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://illwell.in/#contact</loc>
+    <lastmod>2025-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>

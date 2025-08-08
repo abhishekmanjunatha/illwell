@@ -1,0 +1,44 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://illwell.in/sitemap.xml
+
+# Specific crawlers
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+# Disallow certain files
+Disallow: /src/
+Disallow: /*.css$
+Disallow: /*.js$
+Disallow: /vite.config.js
+Disallow: /package.json
+Disallow: /node_modules/
+
+# Allow important assets
+Allow: /src/assets/*.jpg
+Allow: /src/assets/*.jpeg  
+Allow: /src/assets/*.png
+Allow: /src/assets/*.svg
+Allow: /src/assets/*.webp
+
+# Clean URLs
+Clean-param: utm_source
+Clean-param: utm_medium
+Clean-param: utm_campaign
+Clean-param: utm_term
+Clean-param: utm_content
+Clean-param: fbclid
+Clean-param: gclid
