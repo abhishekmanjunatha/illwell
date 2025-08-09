@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import iconWeight from './assets/icon-weight.svg';
 import iconDiabetes from './assets/icon-diabetes.svg';
 import iconFamily from './assets/icon-family.svg';
@@ -14,6 +14,84 @@ import lybrateLogo from './assets/ll.png';
 import './App.css';
 
 function App() {
+  // Visitor Counter State
+  const [visitorCount, setVisitorCount] = useState(0);
+
+  // Initialize and manage visitor counter
+  useEffect(() => {
+    const initializeVisitorCounter = () => {
+      // Check if this is a genuine new visitor
+      const checkUniqueVisitor = () => {
+        const countKey = 'illwell_genuine_visitors';
+        const sessionKey = 'illwell_current_session';
+        const visitorKey = 'illwell_visitor_fingerprint';
+        
+        // Create a simple browser fingerprint (combination of user agent + screen + timezone)
+        const createFingerprint = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          ctx.textBaseline = 'top';
+          ctx.font = '14px Arial';
+          ctx.fillText('Visitor tracking', 2, 2);
+          
+          return btoa(
+            navigator.userAgent.slice(0, 50) + 
+            screen.width + 'x' + screen.height + 
+            new Date().getTimezoneOffset() +
+            canvas.toDataURL().slice(0, 50)
+          ).slice(0, 20);
+        };
+        
+        const currentFingerprint = createFingerprint();
+        const storedFingerprint = localStorage.getItem(visitorKey);
+        const currentSession = sessionStorage.getItem(sessionKey);
+        
+        // Get current visitor count (starts from 0 if not exists)
+        let totalVisitors = parseInt(localStorage.getItem(countKey)) || 0;
+        let isNewVisitor = false;
+        
+        // Check if this is a truly new visitor
+        if (!currentSession) {
+          // Mark this session as active
+          sessionStorage.setItem(sessionKey, 'active_' + Date.now());
+          
+          // Check if this browser/device has visited before
+          if (!storedFingerprint || storedFingerprint !== currentFingerprint) {
+            // This is a genuinely new visitor
+            totalVisitors += 1;
+            isNewVisitor = true;
+            
+            // Store the fingerprint to remember this visitor
+            localStorage.setItem(visitorKey, currentFingerprint);
+            localStorage.setItem(countKey, totalVisitors.toString());
+            localStorage.setItem('illwell_first_visit', new Date().toISOString());
+            
+            console.log('🎉 NEW GENUINE VISITOR! Count:', totalVisitors);
+          } else {
+            console.log('👋 Welcome back! Returning visitor. Count remains:', totalVisitors);
+          }
+        }
+        
+        return { count: totalVisitors, isNew: isNewVisitor };
+      };
+      
+      // Initialize the counter
+      const { count, isNew } = checkUniqueVisitor();
+      setVisitorCount(count);
+      
+      // Only log genuine new visitors
+      if (isNew) {
+        console.log('✅ Visitor counter updated:', count);
+      }
+      
+      // No artificial simulation - only real visits count
+      return () => {}; // No cleanup needed
+    };
+
+    const cleanup = initializeVisitorCounter();
+    return cleanup;
+  }, []);
+
   // SEO Meta Management
   useEffect(() => {
     // Update page title dynamically
@@ -22,7 +100,7 @@ function App() {
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Dr. Keerthi Shree Kirisave - PhD Clinical Nutritionist & Dietitian in Bengaluru. 16+ years experience. Weight management, diabetes, PCOS, thyroid nutrition specialist. Featured on TV9, PublicTV. Book: +91-9886717192');
+      metaDescription.setAttribute('content', 'Dr. Keerthi Shree Kirisave - PhD Clinical Nutritionist & Dietitian in Bengaluru. 16+ years experience. Weight management, diabetes, PCOS, thyroid nutrition specialist. Featured on TV9, PublicTV. Book online appointment.');
     }
 
     // Update Open Graph title
@@ -63,7 +141,7 @@ function App() {
           "name": "How can I book a consultation with Dr. Keerthi?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can book a consultation with Dr. Keerthi Shree Kirisave by calling +91-9886717192 or visiting our clinic at Ground Floor, Vathsalya Speciality Clinic, 565, beside post office, 3rd Stage 4th Block, Shakthi Ganapathi Nagar, Basaveshwar Nagar, Bengaluru - 560079."
+            "text": "You can book a consultation with Dr. Keerthi Shree Kirisave by using our online booking system or visiting our clinic at Ground Floor, Vathsalya Speciality Clinic, 565, beside post office, 3rd Stage 4th Block, Shakthi Ganapathi Nagar, Basaveshwar Nagar, Bengaluru - 560079."
           }
         },
         {
@@ -684,9 +762,9 @@ function App() {
                 <div className="expertise-column">
                   <h4>Professional Experience</h4>
                   <ul className="expertise-list">
+                    <li>Dietician at K C General Hospital</li>
                     <li>Ex-Dietician at Sagar Hospitals (Jayanagar)</li>
                     <li>Ex-Dietician at M S Ramaiah Hospitals</li>
-                    <li>Ex-Dietician at K C General Hospital</li>
                     <li>Food consultant & recipe developer</li>
                     <li>Meal and weaning food planner</li>
                   </ul>
@@ -1344,7 +1422,7 @@ function App() {
                 </div>
                 <div className="method-content">
                   <h4>Speak with Our Expert</h4>
-                  <p>+91-9886717192</p>
+                  <p>Professional consultation available</p>
                   <span className="method-action" onClick={() => {
                     // For mobile devices, use the phone dialer
                     if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -1481,8 +1559,19 @@ function App() {
             </div>
           </div>
           <div className="footer-bottom">
+            <div className="footer-stats">
+              <div className="visitor-counter">
+                <span className="visitor-icon">👥</span>
+                <span className="visitor-text">Visitors: </span>
+                <span className="visitor-count">{visitorCount.toLocaleString()}</span>
+                <span className="visitor-pulse">•</span>
+              </div>
+            </div>
             <div className="footer-copyright">
               <p>&copy; 2025 illwell. All rights reserved.</p>
+            </div>
+            <div className="footer-developer">
+              <p>Developed by <a href="https://www.linkedin.com/in/abhishekgm/" target="_blank" rel="noopener noreferrer" className="developer-link">Abhishek Manjunath</a></p>
             </div>
             <div className="footer-legal">
               <a href="#">Privacy Policy</a>
@@ -1509,7 +1598,7 @@ function App() {
           <span className="button-icon">📞</span>
           Get Appointment
         </button>
-        <div className="practo-instruction mobile">Call directly: +91-9886717192</div>
+        <div className="practo-instruction mobile">Call directly to book appointment</div>
       </div>
     </div>
   );

@@ -2918,6 +2918,101 @@ practo\:abs_widget {
   gap: 1rem;
 }
 
+/* Visitor Counter Styles */
+.footer-stats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.visitor-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.visitor-icon {
+  font-size: 14px;
+}
+
+.visitor-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.visitor-count {
+  color: var(--primary-light);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+}
+
+.visitor-pulse {
+  color: var(--primary);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  25%, 75% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+/* Developer Credit Styles */
+.footer-developer {
+  order: 2;
+}
+
+.footer-developer p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  margin: 0;
+  font-style: italic;
+}
+
+.developer-link {
+  color: var(--primary-light);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.developer-link:hover {
+  color: #fff;
+  text-shadow: 0 0 8px var(--primary);
+}
+
+.developer-link:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--primary), transparent);
+  animation: underline-glow 0.3s ease;
+}
+
+@keyframes underline-glow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 .footer-copyright p {
   color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
@@ -3630,6 +3725,38 @@ practo\:abs_widget {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+  }
+  
+  /* Mobile Visitor Counter */
+  .footer-stats {
+    order: -1;
+    justify-content: center;
+  }
+  
+  .visitor-counter {
+    padding: 0.4rem 0.8rem;
+    font-size: 12px;
+  }
+  
+  .visitor-text {
+    font-size: 11px;
+  }
+  
+  .visitor-count {
+    font-size: 12px;
+  }
+  
+  /* Mobile Developer Credit */
+  .footer-developer {
+    order: 3;
+  }
+  
+  .footer-developer p {
+    font-size: 11px;
+  }
+  
+  .developer-link {
+    font-size: 12px;
   }
   
   /* General mobile improvements */
