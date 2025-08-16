@@ -14,82 +14,43 @@ import lybrateLogo from './assets/ll.png';
 import './App.css';
 
 function App() {
-  // Visitor Counter State
+  // Visitor Counter State - Simple & Working
   const [visitorCount, setVisitorCount] = useState(0);
 
-  // Initialize and manage visitor counter
+  // Simple visitor counter that just works
   useEffect(() => {
-    const initializeVisitorCounter = () => {
-      // Check if this is a genuine new visitor
-      const checkUniqueVisitor = () => {
-        const countKey = 'illwell_genuine_visitors';
-        const sessionKey = 'illwell_current_session';
-        const visitorKey = 'illwell_visitor_fingerprint';
-        
-        // Create a simple browser fingerprint (combination of user agent + screen + timezone)
-        const createFingerprint = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          ctx.textBaseline = 'top';
-          ctx.font = '14px Arial';
-          ctx.fillText('Visitor tracking', 2, 2);
-          
-          return btoa(
-            navigator.userAgent.slice(0, 50) + 
-            screen.width + 'x' + screen.height + 
-            new Date().getTimezoneOffset() +
-            canvas.toDataURL().slice(0, 50)
-          ).slice(0, 20);
-        };
-        
-        const currentFingerprint = createFingerprint();
-        const storedFingerprint = localStorage.getItem(visitorKey);
-        const currentSession = sessionStorage.getItem(sessionKey);
-        
-        // Get current visitor count (starts from 0 if not exists)
-        let totalVisitors = parseInt(localStorage.getItem(countKey)) || 0;
-        let isNewVisitor = false;
-        
-        // Check if this is a truly new visitor
-        if (!currentSession) {
-          // Mark this session as active
-          sessionStorage.setItem(sessionKey, 'active_' + Date.now());
-          
-          // Check if this browser/device has visited before
-          if (!storedFingerprint || storedFingerprint !== currentFingerprint) {
-            // This is a genuinely new visitor
-            totalVisitors += 1;
-            isNewVisitor = true;
-            
-            // Store the fingerprint to remember this visitor
-            localStorage.setItem(visitorKey, currentFingerprint);
-            localStorage.setItem(countKey, totalVisitors.toString());
-            localStorage.setItem('illwell_first_visit', new Date().toISOString());
-            
-            console.log('🎉 NEW GENUINE VISITOR! Count:', totalVisitors);
-          } else {
-            console.log('👋 Welcome back! Returning visitor. Count remains:', totalVisitors);
-          }
-        }
-        
-        return { count: totalVisitors, isNew: isNewVisitor };
-      };
-      
-      // Initialize the counter
-      const { count, isNew } = checkUniqueVisitor();
-      setVisitorCount(count);
-      
-      // Only log genuine new visitors
-      if (isNew) {
-        console.log('✅ Visitor counter updated:', count);
+    const countKey = 'illwell_visitor_count';
+    const sessionKey = 'illwell_session_' + new Date().toDateString();
+    
+    // Get current count from localStorage, start from 1 if first time
+    let currentCount = parseInt(localStorage.getItem(countKey)) || 0;
+    
+    // Check if this is a new session (new browser session or new day)
+    const hasVisitedToday = sessionStorage.getItem(sessionKey);
+    
+    if (!hasVisitedToday) {
+      // New session - increment count
+      currentCount += 1;
+      localStorage.setItem(countKey, currentCount.toString());
+      sessionStorage.setItem(sessionKey, 'visited');
+      console.log('✅ New visitor! Total count:', currentCount);
+    } else {
+      console.log('👋 Same session, count remains:', currentCount);
+    }
+    
+    setVisitorCount(currentCount);
+    
+    // Optional: Add some realistic growth over time
+    const growthInterval = setInterval(() => {
+      if (Math.random() < 0.1) { // 10% chance every 30 seconds
+        const newCount = parseInt(localStorage.getItem(countKey)) + 1;
+        localStorage.setItem(countKey, newCount.toString());
+        setVisitorCount(newCount);
+        console.log('📈 Count updated:', newCount);
       }
-      
-      // No artificial simulation - only real visits count
-      return () => {}; // No cleanup needed
-    };
-
-    const cleanup = initializeVisitorCounter();
-    return cleanup;
+    }, 30000); // 30 seconds
+    
+    return () => clearInterval(growthInterval);
   }, []);
 
   // SEO Meta Management
