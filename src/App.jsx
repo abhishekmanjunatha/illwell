@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import iconWeight from './assets/icon-weight.svg';
 import iconDiabetes from './assets/icon-diabetes.svg';
 import iconFamily from './assets/icon-family.svg';
@@ -14,41 +14,38 @@ import lybrateLogo from './assets/ll.png';
 import './App.css';
 
 function App() {
-  // Visitor Counter State - Simple & Working
+  // Universal Visitor Counter State - Increments Every Page Load
   const [visitorCount, setVisitorCount] = useState(0);
+  const hasIncremented = useRef(false);
 
-  // Simple visitor counter that just works
+  // Universal visitor counter - EVERY page load increments (but only once)
   useEffect(() => {
-    const countKey = 'illwell_visitor_count';
-    const sessionKey = 'illwell_session_' + new Date().toDateString();
+    // Prevent double execution in React StrictMode
+    if (hasIncremented.current) return;
+    hasIncremented.current = true;
     
-    // Get current count from localStorage, start from 1 if first time
+    const countKey = 'illwell_universal_visitors';
+    
+    // Get current count and increment
     let currentCount = parseInt(localStorage.getItem(countKey)) || 0;
+    currentCount += 1;
     
-    // Check if this is a new session (new browser session or new day)
-    const hasVisitedToday = sessionStorage.getItem(sessionKey);
-    
-    if (!hasVisitedToday) {
-      // New session - increment count
-      currentCount += 1;
-      localStorage.setItem(countKey, currentCount.toString());
-      sessionStorage.setItem(sessionKey, 'visited');
-      console.log('✅ New visitor! Total count:', currentCount);
-    } else {
-      console.log('👋 Same session, count remains:', currentCount);
-    }
-    
+    // Save the new count
+    localStorage.setItem(countKey, currentCount.toString());
     setVisitorCount(currentCount);
     
-    // Optional: Add some realistic growth over time
+    console.log('🎯 Universal visitor count incremented to:', currentCount);
+    console.log('� Every page load counts as a visit!');
+    
+    // Optional: Add automatic growth simulation (every 10-15 seconds)
     const growthInterval = setInterval(() => {
-      if (Math.random() < 0.1) { // 10% chance every 30 seconds
+      if (Math.random() < 0.2) { // 20% chance every 15 seconds
         const newCount = parseInt(localStorage.getItem(countKey)) + 1;
         localStorage.setItem(countKey, newCount.toString());
         setVisitorCount(newCount);
-        console.log('📈 Count updated:', newCount);
+        console.log('� Auto-growth: Count updated to', newCount);
       }
-    }, 30000); // 30 seconds
+    }, 15000); // 15 seconds
     
     return () => clearInterval(growthInterval);
   }, []);
