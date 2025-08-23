@@ -254,6 +254,45 @@ function App() {
     return () => clearTimeout(timer);
   });
 
+  // Hit Counter Badge Widget Initialization
+  useEffect(() => {
+    const loadBadgeCounter = () => {
+      // Remove any existing badge counter script
+      const existingScript = document.querySelector('script[src*="badgess.js"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
+
+      // Create and load the badge counter script
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://visitorshitcounter.com/js/badgess.js?v=1755969445';
+      script.async = true;
+      
+      script.onload = () => {
+        console.log('Badge Counter script loaded successfully');
+      };
+      
+      script.onerror = () => {
+        console.error('Failed to load Badge Counter script');
+      };
+
+      document.head.appendChild(script);
+    };
+
+    // Load the script after component mounts
+    const timer = setTimeout(loadBadgeCounter, 1000);
+
+    return () => {
+      clearTimeout(timer);
+      // Clean up script on unmount
+      const script = document.querySelector('script[src*="badgess.js"]');
+      if (script) {
+        script.remove();
+      }
+    };
+  }, []);
+
   return (
     <div className="app-container">
       {/* Navigation */}
@@ -1518,12 +1557,40 @@ function App() {
           </div>
           <div className="footer-bottom">
             <div className="footer-stats">
-              <div className="visitor-counter">
-                <span className="visitor-icon">👥</span>
-                <span className="visitor-text">Visitors: </span>
-                <span className="visitor-count">{visitorCount.toLocaleString()}</span>
-                <span className="visitor-pulse">•</span>
+              {/* Badge Code - Do Not Change The Code */}
+              <div className="col-xs-12 mt20" id="bg">
+                <div style={{
+                  margin: '0px auto',
+                  width: '133px',
+                  background: 'rgb(28, 235, 148)',
+                  textAlign: 'left',
+                  display: 'flex',
+                  borderRadius: '5px'
+                }}>
+                  <span style={{
+                    padding: '7px',
+                    display: 'inline-block',
+                    borderRight: '1px solid #746dba'
+                  }}>
+                    <a href="http://visitorshitcounter.com" rel="nofollow noopener" target="_blank" title="https://visitorshitcounter.com/">
+                      <img src="https://visitorshitcounter.com/img/s-logo.svg" alt="https://visitorshitcounter.com/" style={{
+                        width: '100%',
+                        border: 'none',
+                        float: 'left'
+                      }} />
+                    </a>
+                  </span>
+                  <span className="text" id="dupli_hit_counter" style={{
+                    padding: '10px 0 0 0',
+                    display: 'inline-block',
+                    color: '#ffffff',
+                    width: '100%',
+                    textAlign: 'center'
+                  }}></span>
+                  <input type="hidden" id="site_val" value="https://visitorshitcounter.com/counterDisplay?code=cd385abf9f9e32de0d86cabadd2ca382&style=0017&pad=7&type=page&initCount=5555" />
+                </div>
               </div>
+              {/* Badge Code End Here */}
             </div>
             <div className="footer-copyright">
               <p>&copy; 2025 illwell. All rights reserved.</p>
